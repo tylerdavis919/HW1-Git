@@ -3,11 +3,17 @@ title: "Homework Assignment 1"
 author: "Tyler Davis"
 date: 'Assigned: Oct 24, 2020, Due Sun Nov 01, 2020 11:59PM'
 output:
-  pdf_document: default
-  html_document: default
+  html_document: 
+    code_folding: show
+    toc: true
+    toc_float: TRUE
+    toc_collapsed: true
+    toc_depth: 3
+    number_sections: true
+  theme: lumen 
 ---
 
-## HW-1 Instructions
+# HW-1 Instructions
 
 > Our class emphasizes clear communication of data analysis results to non-technical audiences. I expect your HTML output documents to be readable and well formatted. I expect you to put ample comments in your R code to make the code understandable. Along with accuracy of results, I am looking for quality of presentation as well. This homework is due by **11:59PM on Nov 01st**.  To complete this assignment, follow these steps:
 
@@ -38,7 +44,7 @@ First - make sure that you are reading the data correctly and doing all the data
 
 I now would like you to answer the following - all in their own separate R code blocks.
 
-## Reading my data
+# Reading my data
 
 ```{r}
 nyc <- read.csv("nycflights.csv")
@@ -70,7 +76,7 @@ summary(nyc)
 ```
 
    
-### Data Exploration
+# Data Exploration
 
 Let's first do some simple exploration of this data. 
 
@@ -114,7 +120,7 @@ There are 112 by United Airlines on Jan 12th, 2013.
 
 
 
-### Arrival Delay
+# Arrival Delay
 
 Lets focus on Arrival Delay.
 
@@ -143,7 +149,7 @@ That is, there are likely some flights that are extremely delayed while there ar
 
 
 
-### Airline Performance
+# Airline Performance
 
 Lets see if all airlines are equally terrible as far as flight arrival delays are concerned. For this question you will have to make sure that airline column is coded as a factor.
 
@@ -174,7 +180,7 @@ The airline with the highest average arrival dealy is: `r names(delay_by_airline
 
 
 
-### Air Gain
+# Air Gain
 
 Create a new column named airgain such that airgain = (departure delay - arrival delay) : this is the amount of delay a flight made up while in air.
 
@@ -202,7 +208,7 @@ barplot(airgain_by_airline)
 Airlines make up 5.6 minutes while in the air on average. The average airgain by airline is shown above as is a barplot of the data. F9, FL and MQ appear to be the only ones that are negative meaning that they lose time in the air on average.  OO and US are very low but still positive and all of the other airlines are various levels of positive air gain meaning they make up time on average.
 
 
-### Merging Data Frames
+# Merging Data Frames
 
 > This section and the next is new compared to the class exercise. As you had an opportunity to work together in your breakout rooms for previous questions, this and the next section will carry a higher weight in grading for this HW.
 
@@ -253,9 +259,12 @@ merged <- merge(nyc, planes, by= "tailnum")
 
 c) Now that you have a merged dataset, think of what interesting questions that you can ask that can be answered using the merged dataset. You are asked to pose five interesting questions and answer them. (For example: who are the top 10 manufacturers of planes that fly out of NYC airports?) **Be creative. Be bold. Ask questions that you would want to know answers to even if you were not doing this for a HW. **
 
+# Merged Exploration
+
 1 How many routes are there?
 
 ```{r}
+library(dplyr)
 routes <- distinct(merged, merged$origin, merged$dest)
 nrow(routes)
 ```
@@ -288,19 +297,18 @@ mean(merged$seats)
 
 The average number of seats on a plane is 137
 
-5 Do smaller planes go faster or slower?
 
-add row splitting into small or large based on mean
-repeat 3 for small and large
+5 How many planes are larger and how many are smaller than average?
 
 ```{r}
 merged$small <- merged$seats < mean(merged$seats)
+summary(merged$small)
 
 ```
 
+There are 181898 flights on planes larger than the average and 102272 flights on planes smaller than the average of 137 seats.
 
-
-### Making Your HTML Look Nice
+# Making Your HTML Look Nice
 
 We want our report to be good looking, professional documents. To that end, I am asking you to do the following:
 
